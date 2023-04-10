@@ -1,0 +1,311 @@
+\documentclass[a4paper,11pt,english]{article}
+
+%\usepackage{fontspec} 
+\usepackage[utf8]{inputenc} %encoding
+\usepackage[T1]{fontenc}
+%\usepackage{amsmath}
+%\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{academicons}
+\usepackage{geometry}
+\usepackage{tgpagella} %font set to Tex Gyre pagella
+\usepackage{fontawesome} %this produces the icons- for this to work I had to change to luatex
+\usepackage{multicol}
+ 
+ % empty the headers, footers, pagenumbers…
+ \pagestyle{empty}
+%\setmainfont{Calibri}
+\geometry{left=2.5cm,right=2.5cm,top=3cm,bottom=3cm}
+%The different sections of the curriculum (Work Experience, Education, and so on) are created with the
+%usual \section command. However, we want to change slightly the appearance of this command, so that it
+%uses a custom font and also prints a horizontal rule below it. For this purpose, we use the sectsty package
+
+% Custom sectioning with secsty
+\usepackage{sectsty}
+\sectionfont{%                        
+	\Large % make sections smaller: instead of using the \Large default font size it uses \large.
+	\fontfamily{qag}\selectfont % change font family: instead of the font set for the entire document, for the sections we use the font \TeX Gyre Adventor, which can be loaded with the font code qag.
+	\sectionrule{0pt}{0pt}{-5pt}{1pt} % insert a thin rule 5pt below the title, with a thickness of 1pt.
+}
+
+%% MACROS %%
+% size of the boxes used to align text
+\newlength{\spacebox}
+\settowidth{\spacebox}{123456789}
+%As you can see, we set this new length to be equal to the width of the box formed by 123456789. It is also
+%convenient to define a macro to easily insert the same vertical separation between entries each time:
+
+% vertical space separator between entries
+\newcommand{\sepspace}{\vspace*{1em}}
+
+%Now it is time to write the macro that prints our name at the top of the CV:
+
+% name
+\newcommand{\name}[1]{
+	\Huge % font size
+	\fontfamily{phv}\selectfont % changes the font family. In this case, we chose the Helvetica font family, with font code phv.
+	% print name centered and bold
+	\begin{center} \textbf{#1} \end{center}\par
+	% back to normal size and font (it ends the paragraph with \par and sets back the default size and font.)
+	\normalsize\normalfont}
+
+%Personal details macros
+\newcommand{\info}[2]{
+	% set specific indentation for personal information
+	\noindent\hangindent=2em\hangafter=0
+	% create a box to align two pieces of text
+	\parbox{\spacebox}{%
+		\textsl{#1}} % slanted entry name
+	#2 \par} % entry value
+
+
+
+%Before the contents of the macro, note that it will be passed to parameters:  the first one will specify the name of the (personal information) entry, while the second will specify the contents of that entry. We separate these two so that we can give different format to each of them, and also set some separation.
+%For this entries we set a specific indentation from the right margin. We first delete the default indentation with \noindent, then set our custom indentation with \hangindent, and finally indicate for how many lines we want this indentation with \hangafter (zero means that all the lines will have this same indentation).
+%Now we create a paragraph mode box with \parbox of size \spacebox as was defined previously. Inside this box we want to have the entry name slanted.
+%Finally, we print the entry contents using the default font and end the paragraph with \par.
+
+
+
+
+% skill
+\newcommand{\skill}[2]{
+	% set specific indentation for personal information
+	\noindent\hangindent=2em\hangafter=0
+	% create a box to align two pieces of text
+	\parbox{3\spacebox}{% three times larger box
+		\textsc{#1}} % small caps entry name
+	#2 \par} % entry value
+% language level
+\newcommand{\lan}[2]{
+	% set specific indentation for personal information
+	\noindent\hangindent=2em\hangafter=0
+	% create a box to align two pieces of text
+	\parbox{\spacebox}{%
+		\textbf{#1}} % bold font entry name
+	#2 \par}    % entry value
+
+%First the entry name space for the \verb|\skill| command is \verb|3\spacebox| instead of \verb|\spacebox|, since we want one of the skills to be “Programming languages” which doesn’t fit in a single line of width \verb|\spacebox|. I suggest you too adjust these lengths to fit the needs of your entries.
+%What also changes is the font type of the entry names: for the skill it is smallcaps, and for the languages is boldface. These are, of course, arbitrary choices, and you can set them as you like the most.
+
+% education entry
+\newcommand{\education}[4]{
+	% date
+    \noindent\textbf{#2}
+	\hfill 
+	% university
+	\hfill 
+	\noindent\textbf{#1}
+	% new paragraph with the school in italics
+%	\hfill
+	\noindent {#3}
+	 \par
+	% description with no hanging and in smaller text
+    \hfill  
+	\vspace*{0.5em}
+	\noindent\hangindent=2em\hangafter=0 \small #4
+	\hfill  
+	%back to normal size
+	\normalsize \par}
+
+
+%^This macro has four arguments: the first specifies the name of the studies-not second, the second the duration- now first, the third the institution, and the fourth a more or less brief description.
+%We write the name of the studies with no indentation in bold text.
+%Then we use the \hfill command to write at the right the duration of the studies. This duration is written inside a \parbox of width 6em, is centered inside the paragraph box with \centering, and written in bold. Finally, the box is wrapped with a frame, using the \framebox command.
+%Then we start a new paragraph with \par, and with no indentation we write the institution using italics. Again, we end the paragraph and start a new one.
+%Finally, we leave 0.5em of vertical space, and with the same custom indentation as the one used for the personal, technical and language entries, we write in small text the description of the studies. Finally, we go back to the normal text size and end the paragraph.
+
+
+% work experience
+\newcommand{\work}[4]{
+	%date
+	\noindent\textbf{#2}
+	\hfill 
+	 % name of the work
+	\hfill 
+	\noindent\textbf{#1}
+	% at the right the duration
+	
+	% new paragraph with the school in italics
+	\hfill
+	\noindent \textit{#3} \par
+	% description with no hanging and in smaller text  
+    \vspace*{0.5em}
+	\noindent\hangindent=2em\hangafter=0 \small #4
+	%back to normal size
+	\normalsize \par}
+
+
+
+
+%\section{Summary}
+
+
+%\textbf I am a PhD student at the University of Queensland in the Biological Sciences department studying the nature of genetic variation during an environmental change under the supervision of Associate professor Katrina McGuigan and co-supervision of Professor Craig Franklin. My previous research has focused on behavioural ecology, morphology, physiology, and microhabitat divergence in relation to environmental change. I now aim to investigate genotype-by-environment interactions and trait correlations using a quantitative genetic approach to evolutionary biology.
+
+
+\begin{document}
+	% name and motto
+	\name{Christina Miller}
+	\vspace*{-10pt}
+	% personal information
+	%\sepspace -got rid of extra space between name and info
+	\begin{center}
+		\faEnvelopeO {christina.miller@uqconnect.edu.au}
+		\faPhone {+31 415 926 535} 
+		%\info{Address}{Fake Road 123, City 23456, Country}
+		\faGlobe {christinalmiller.com}
+		%{\aiGoogleScholar}{https://scholar.google.com.tw/myscholarexample}
+	\end{center}
+
+%Summary
+\section*{Summary}
+\begin{flushleft}
+I am a PhD student at the University of Queensland in the 
+Biological Sciences department studying the nature of genetic 
+variation during an environmental change under the supervision 
+of Associate professor Katrina McGuigan and co-supervision of 
+Professor Craig Franklin. My previous research has focused on 
+behavioural ecology, morphology, physiology, and microhabitat 
+divergence in relation to environmental change. I now aim to 
+investigate genotype-by-environment interactions and trait 
+correlations using a quantitative genetic approach to evolutionary 
+biology.
+\>   \\    
+\>   \\ 
+
+
+\end{flushleft}
+
+
+% work experience
+%\section*{Current Employment}
+%\work{Post Doctoral Research Associate}{2023-Present}{Michigan State University}
+
+%% left aligned title in different large font
+\fontfamily{qag}\flushleft\selectfont\Large\textbf{Current Employment}
+%% draw a line underneath it
+\sectionrule{0pt}{0pt}{-5pt}{1pt}
+%% switch font back
+\normalsize\normalfont
+\begin{tabbing}
+	%% each "\hspace{1in}\=" adds another column of whatever tab width you 
+	%	want. The "\kill" just stops a blank line before the first row
+	\hspace{2in}\=\kill
+	%% separate each column with "\>", and end the row with "\\"
+	\textbf{2023--Present} \> \textbf{Post-doctoral Research Associate in Quantitative Genetics}  \\
+		\> Michigan State University, US    \\
+			\>  \\
+	\>The main focus of this research was xxxx\\
+	\>To do this I worked on xxxxx\\
+	\>More thing to write here\\
+
+\end{tabbing}
+
+
+%\begin{itemize}
+	%\item One thing I did.
+	%\item Another thing I did.
+	%\item I didn't do much more, sorry.
+%\end{itemize}}
+
+%\sepspace
+%\work{Data Analyist}{2010--2015}{An important tech
+%	company}{This is a detailed description of the this
+%	work:
+%	\begin{itemize}
+%		\item One thing I did.
+%		\item Another thing I did.
+%		\item I didn't do much more, sorry.
+%\end{itemize}}
+
+
+
+%% left aligned title in different large font
+\fontfamily{qag}\flushleft\selectfont\Large\textbf{Education}
+%% draw a line underneath it
+\sectionrule{0pt}{0pt}{-5pt}{1pt}
+%% switch font back
+\normalsize\normalfont
+\begin{tabbing}
+	%% each "\hspace{1in}\=" adds another column of whatever tab width you 
+%	want. The "\kill" just stops a blank line before the first row
+	\hspace{2in}\=\kill
+	%% separate each column with "\>", and end the row with "\\"
+	\textbf{2018--2022} \> \textbf{PhD in Quantitative Genetics }  \\
+	\> The University of Queensland, AU    \\
+	\> {Thesis title: \textit {Determining the genetic and mutational contributions to a complex, environmentally dependent, phenotype}}    \\
+	\>  \\  %% a blank line before the next entry
+	\textbf{2014--2015} \> \textbf{MSc in Animal Behaviour}       \\
+	\> Exeter University UK  \\
+	\>{Thesis Title: \textit {Evolutionary consequences of interspecific competition: Anolis sagrei and A. cristatellus in recent secondary contact} }  \\
+	\>   \\
+	\textbf{2010--2013}\>\textbf{BSc(Hons) in Psychology}  \\
+	\> Birmingham City University, UK   \\
+	\> {Thesis Title: \textit {Colour me beautiful: Innate or learned 
+		attractions between the sexes }}  \\
+	\>   \\                                         
+\end{tabbing}
+
+
+\section*{Publications}
+\begin{flushleft}
+	\begin{itemize}
+		\textbf {Miller, C.L.}, Sun D., Thornton, L.H., McGuigan, K. (2022). The contribution of mutation to variation in temperature-dependent sprint speed in zebrafish, Danio rerio. bioRxiv. DOI: 10.1101/2022/09/28/509995
+		\>   \\    
+		Logan, M.L., Neel, K.L., Nicholson, J-D.J., Stokes, A., \textbf{Miller C.L.}.. Cox, C. (2021). Sex-specific microhabitat use is associated with sex-biased thermal physiology in Anolis lizards. Journal of Experimental Biology, 244. DOI: 10.1242/JEB.235697
+		\>   \\    
+		Neel, L.K., Logan, M.L., Nicholson, D.J., \textbf{Miller, C.L.}..Cox, C. (2021). Habitat structure mediates vulnerability to climate change through its effects on thermoregulatory behavior. bioTropica, 00:1-13. DOI: 10.1111/btp.12951
+		\>   \\    
+		\textbf{Miller, C.} (2017). Morphological and roosting variation in the dwarf chameleon, Brookesia stumpffi, between primary, secondary, and degraded habitats in Nosy Be, Madagascar. Journal of Herpetology, Conservation and Biology, 12 (3): 599-605.
+	\end{itemize}
+	\>   \\    
+		
+\end{flushleft}
+
+\section*{Research Experience}
+\begin{flushleft}
+	\>   \\ 
+\end{flushleft}
+
+\section*{Teaching and Outreach}
+\begin{flushleft}
+	\begin{tabbing}
+		%% each "\hspace{1in}\=" adds another column of whatever tab width you 
+		%	want. The "\kill" just stops a blank line before the first row
+		\hspace{2in}\=\kill
+		%% separate each column with "\>", and end the row with "\\"
+		\textbf{2021--2022} \> \textbf{Science Ambassador}  \\
+		\> Wonder of Science, AU    \\
+		\> {Presented information about STEM, academia, and careers to various schools around Queensland}   \\
+		\> {Assisten in running a 'Girls in Science' (GSTEM) program. This involved mentoring students in conducting practical experiments within an area of STEM, and guiding students on how to present their results at a conference-like event}\\
+		\> {Visited remote schools around Queensland teaching a science subject related to the school curriculum. In groups, students would run their own experiments to test a hypothesis related to the subject. Regional and state conferences were held for the students to present their findings.}\\
+		\> {Helped with setting up the conferences and judging the student's presentations.}
+		\>  \\  %% a blank line before the next entry
+		\textbf{2019-2022} \> \textbf{Teaching assistant/ tutor}       \\
+		\> Department of Biological Sciences, University of Queensland  \\
+		\>{Lead field trips in South East Queensland for an international programs course, teaching biodiversity, ecology, and conservation to third year undergraduate American students.}  \\
+		\> {Taught ecophysiology to third year undergraduate students, specifically demonstrating the effects of temperature on metabolic rates in ectotherms.}\\
+		\> {Taught practical ecology skills to first year undergraduate students, which had to be adapted to an online format due to Covid-19 during 2020.}
+		
+	
+		\>   \\                                         
+	\end{tabbing}	
+	\>   \\ 
+\end{flushleft}
+
+
+% technical skills
+\section*{Technical skills}
+\skill{Statistics}{\textsc{R, SAS, SPSS}}
+\skill{Writing}{\textsc{Microsoft Office, \LaTeX, 
+		\textsc {Markdown}}}
+\skill{Other}{\textsc{ImageJ, MorphoJ, xxxx, xxxx}}
+% languages
+\section*{Languages}
+\lan{English}{Native}
+\lan{Spanish}{B2}
+\lan{French}{A2}
+
+\end{document}
+
