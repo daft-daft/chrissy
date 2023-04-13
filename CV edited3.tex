@@ -263,6 +263,8 @@ biology.
 		
 \end{flushleft}
 
+%% you've mixed up the itemise with te tabbing command for teh publications, see the lists I've added at the bottom
+
 \section*{Research Experience}
 \begin{flushleft}
 	\>   \\ 
@@ -281,7 +283,7 @@ biology.
 		\> {Assisten in running a 'Girls in Science' (GSTEM) program. This involved mentoring students in conducting practical experiments within an area of STEM, and guiding students on how to present their results at a conference-like event}\\
 		\> {Visited remote schools around Queensland teaching a science subject related to the school curriculum. In groups, students would run their own experiments to test a hypothesis related to the subject. Regional and state conferences were held for the students to present their findings.}\\
 		\> {Helped with setting up the conferences and judging the student's presentations.}
-		\>  \\  %% a blank line before the next entry
+	 \\  %% a blank line before the next entry
 		\textbf{2019-2022} \> \textbf{Teaching assistant/ tutor}       \\
 		\> Department of Biological Sciences, University of Queensland  \\
 		\>{Lead field trips in South East Queensland for an international programs course, teaching biodiversity, ecology, and conservation to third year undergraduate American students.}  \\
@@ -289,9 +291,9 @@ biology.
 		\> {Taught practical ecology skills to first year undergraduate students, which had to be adapted to an online format due to Covid-19 during 2020.}
 		
 	
-		\>   \\                                         
+	   \\                                         
 	\end{tabbing}	
-	\>   \\ 
+%%	\>   \\ 
 \end{flushleft}
 
 
@@ -306,6 +308,31 @@ biology.
 \lan{English}{Native}
 \lan{Spanish}{B2}
 \lan{French}{A2}
+
+
+
+\begin{itemize}
+	\item This is item 1 This is item 1 This is item 1 This is item 1 This is item 1 This is item 1
+	\item[]\textasteriskcentered This is item 2 but note having added the asterix it doesn't line up with item 1 This is item 2 but note having added the asterix it doesn't line up with item 1 This is item 2 but note having added the asterix it doesn't line up with item 1
+	\item Lines up with item 1 This is item 3 This is item 3 This is item 3 This is item 3 This is item 3 This is item 3 This is item 3
+	\item[]\textasteriskcentered This is item 4 indented under item 3  This is item 4 indented under item 3  This is item 4 indented under item 3  This is item 4 indented under item 3  This is item 4 indented under item 3
+	\item[] This is item 5 NOT indented under item 4 This is item 5 NOT indented under item 4 This is item 5 NOT indented under item 4 This is item 5 NOT indented under item 4 This is item 5 NOT indented under item 4 This is item 5 NOT indented under item 4
+	\item[]\textperiodcentered item 6 under item 5, note the empty brackets,
+	\item[]\textperiodcentered item 7 NOT under item 6 
+	
+	\item item 8 with aligned to item 1. 
+	I tried using slash labelitemi, slash labelitemii, slash labelitemiii but it didn't really work for me
+	% etc...
+\end{itemize}
+
+A new list trying slash labelitemi, slash labelitemii, slash labelitemiii hmm I thought they would keep indenting
+\begin{itemize}
+	\item This is item 1 This is item 1 This is item 1 This is item 1 This is item 
+	\item[]\labelitemiv This is item 1 Th\textit{is is item 1 This is i}tem 1 This is item 1 This is item 
+	\item[]\labelitemi This is item 1 This is item 1 This is item 1 This is item 1 This is item 
+	\item \textbf{This is item 1 This i}s item 1 This is item 1 This is item 1 This is item 
+\end{itemize}
+
 
 \end{document}
 
